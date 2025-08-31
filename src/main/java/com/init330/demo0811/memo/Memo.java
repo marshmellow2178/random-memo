@@ -2,6 +2,7 @@ package com.init330.demo0811.memo;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
+@DynamicUpdate
 public class Memo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +24,9 @@ public class Memo {
     private String content;
 
     private boolean pinned = false;
+    private boolean favorite = false;
+
+    private int viewCount = 0;
 
     @CreatedDate
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -43,5 +48,13 @@ public class Memo {
 
     public void togglePinned(){
         this.pinned = !this.pinned;
+    }
+
+    public void toggleFavorite(){
+        this.favorite = !this.favorite;
+    }
+
+    public void increaseViewCount(){
+        this.viewCount++;
     }
 }

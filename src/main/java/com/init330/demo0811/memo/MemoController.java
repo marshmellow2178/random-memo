@@ -67,4 +67,11 @@ public class MemoController {
     ){
         return ResponseEntity.ok(MemoResponse.from(memoService.togglePinned(id)));
     }
+
+    @PatchMapping("/{id}/favorite")
+    public ResponseEntity<?> favoriteMemo(
+            @PathVariable Long id
+    ){
+        return ResponseEntity.ok(MemoResponse.from(memoService.toggleFavorite(id)));
+    }
 }

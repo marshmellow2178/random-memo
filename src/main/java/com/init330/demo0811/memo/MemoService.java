@@ -42,6 +42,19 @@ public class MemoService {
         return memoRepository.save(memo);
     }
 
+    @Transactional
+    public Memo toggleFavorite(Long id){
+        Memo memo = findMemoById(id);
+        memo.toggleFavorite();
+        return memoRepository.save(memo);
+    }
+
+    @Transactional
+    public void increaseViewCount(Long id){
+        Memo memo = findMemoById(id);
+        memo.increaseViewCount();
+    }
+
     public Memo findMemoById(Long id){
         return memoRepository.findById(id).orElseThrow(MemoNotFound::new);
     }
