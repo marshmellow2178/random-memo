@@ -42,7 +42,7 @@ public class MemoController {
     public ResponseEntity<?> getMemo(
             @PathVariable Long id
     ){
-        return ResponseEntity.ok(MemoResponse.from(memoService.findMemoById(id)));
+        return ResponseEntity.ok(MemoResponse.from(memoService.increaseViewCount(id)));
     }
 
     @PutMapping("/{id}")
