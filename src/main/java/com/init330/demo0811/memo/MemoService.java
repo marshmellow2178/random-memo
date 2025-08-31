@@ -50,9 +50,10 @@ public class MemoService {
     }
 
     @Transactional
-    public void increaseViewCount(Long id){
+    public Memo increaseViewCount(Long id){
         Memo memo = findMemoById(id);
         memo.increaseViewCount();
+        return memoRepository.save(memo);
     }
 
     public Memo findMemoById(Long id){

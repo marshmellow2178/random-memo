@@ -1,6 +1,7 @@
 package com.init330.demo0811.memo;
 
 import com.init330.demo0811.config.LocationUtils;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.time.LocalDate;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/memos")
@@ -42,7 +44,7 @@ public class MemoController {
     public ResponseEntity<?> getMemo(
             @PathVariable Long id
     ){
-        return ResponseEntity.ok(MemoResponse.from(memoService.findMemoById(id)));
+        return ResponseEntity.ok(MemoResponse.from(memoService.increaseViewCount(id)));
     }
 
     @PutMapping("/{id}")
