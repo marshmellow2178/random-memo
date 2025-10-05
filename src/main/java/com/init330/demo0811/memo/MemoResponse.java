@@ -9,9 +9,7 @@ public class MemoResponse {
     private Long id;
     private String title;
     private String content;
-    private boolean pinned;
-    private boolean favorite;
-    private int viewCount;
+    private MemoStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -22,9 +20,7 @@ public class MemoResponse {
         response.content = memo.getContent();
         response.createdAt = memo.getCreatedAt();
         response.modifiedAt = memo.getModifiedAt();
-        response.pinned = memo.isPinned();
-        response.favorite = memo.isFavorite();
-        response.viewCount = memo.getViewCount();
+        response.status = memo.getStatus();
         return response;
     }
 }

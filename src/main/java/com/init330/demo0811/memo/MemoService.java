@@ -1,5 +1,6 @@
 package com.init330.demo0811.memo;
 
+import com.init330.demo0811.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,67 +17,67 @@ public class MemoService {
     private final MemoRepository memoRepository;
 
     @Transactional
-    public Memo createMemo(MemoRequest request){
-        Memo memo = Memo.create(request);
+    public Memo createMemo(MemoRequest request, User user){
+        Memo memo = Memo.create(
+                request.title(),
+                request.content(),
+                user
+        );
         return memoRepository.save(memo);
     }
 
     @Transactional
     public Memo updateMemo(
             Long id,
-            MemoRequest request){
-        Memo memo = findMemoById(id);
-        memo.update(request);
+            MemoRequest request,
+            Long userId){
+        Memo memo = findMemoById(id, userId);
+        memo.update(
+                request.title(),
+                request.content()
+        );
         return memoRepository.save(memo);
     }
 
     @Transactional
-    public void deleteMemo(Long id){
-        memoRepository.delete(findMemoById(id));
+    public void deleteMemo(Long id, Long userId){
+        memoRepository.delete(findMemoById(id, userId));
     }
 
     @Transactional
-    public Memo togglePinned(Long id){
-        Memo memo = findMemoById(id);
-        memo.togglePinned();
+    public Memo pinMemo(Long id, Long userId){
+        Memo memo = findMemoById(id, userId);
+        memo.pin();
         return memoRepository.save(memo);
     }
 
     @Transactional
-    public Memo toggleFavorite(Long id){
-        Memo memo = findMemoById(id);
-        memo.toggleFavorite();
+    public Memo doneMemo(Long id, Long userId){
+        Memo memo = findMemoById(id, userId);
+        memo.done();
         return memoRepository.save(memo);
     }
 
     @Transactional
-    public Memo increaseViewCount(Long id){
-        Memo memo = findMemoById(id);
-        memo.increaseViewCount();
+    public Memo undoMemo(Long id, Long userId){
+        Memo memo = findMemoById(id, userId);
+        memo.undo();
         return memoRepository.save(memo);
     }
 
-    public Memo findMemoById(Long id){
-        return memoRepository.findById(id).orElseThrow(MemoNotFound::new);
+    public Memo findMemoById(Long id, Long userId){
+        return memoRepository.findByIdAndUserId(id, userId).orElseThrow(MemoNotFound::new);
     }
 
-    public Page<Memo> findMemo(Pageable pageable, String keyword,
-                               LocalDate from, LocalDate to){
+    public Page<Memo> search(
+            Pageable pageable,
+            String keyword,
+            Long userId
+    ){
         if(StringUtils.hasText(keyword)){
-            return memoRepository.findByTitleContainingIgnoreCase(keyword.trim(), pageable);
+            return memoRepository.findByUserIdAndTitleContaining(userId,keyword.trim(), pageable);
         }
+        return memoRepository.findByUserId(userId, pageable);
 
-        if(from != null && to != null){
-            var start = from.atStartOfDay();
-            var end = to.plusDays(1).atStartOfDay();
-            return memoRepository.findByCreatedAtBetween(start, end, pageable);
-        }else if(from != null){
-            return memoRepository.findByCreatedAtGreaterThanEqual(from.atStartOfDay(), pageable);
-        }else if(to != null){
-            var end = to.plusDays(1).atStartOfDay();
-            return memoRepository.findByCreatedAtLessThan(end, pageable);
-        }
-
-        return memoRepository.findAll(pageable);
     }
 }

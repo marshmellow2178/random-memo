@@ -1,5 +1,6 @@
 package com.init330.demo0811.memo;
 
+import com.init330.demo0811.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -23,10 +24,11 @@ public class Memo {
     private String title;
     private String content;
 
-    private boolean pinned = false;
-    private boolean favorite = false;
+    @Enumerated(EnumType.STRING)
+    private MemoStatus status;
 
-    private int viewCount = 0;
+    @ManyToOne
+    private User user;
 
     @CreatedDate
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -34,27 +36,37 @@ public class Memo {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    public static Memo create(MemoRequest request){
+    public static Memo create(
+            String title,
+            String content,
+            User user
+    ){
         Memo memo = new Memo();
-        memo.title = request.title();
-        memo.content = request.content();
+        memo.title = title;
+        memo.content = content;
+        memo.user = user;
+        memo.status = MemoStatus.NORMAL;
         return memo;
     }
 
-    public void update(MemoRequest request){
-        this.title = request.title();
-        this.content = request.content();
+    public void update(
+            String title,
+            String content
+    ){
+        this.title =title;
+        this.content = content;
     }
 
-    public void togglePinned(){
-        this.pinned = !this.pinned;
+    public void pin(){
+        this.status = MemoStatus.PINNED;
     }
 
-    public void toggleFavorite(){
-        this.favorite = !this.favorite;
+    public void done(){
+        this.status = MemoStatus.DONE;
     }
 
-    public void increaseViewCount(){
-        this.viewCount++;
+    public void undo(){
+        this.status = MemoStatus.NORMAL;
     }
+
 }

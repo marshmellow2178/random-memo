@@ -5,10 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public interface MemoRepository extends JpaRepository<Memo, Long> {
-    Page<Memo> findByTitleContainingIgnoreCase(String title, Pageable pageable);
-    Page<Memo> findByCreatedAtBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
-    Page<Memo> findByCreatedAtGreaterThanEqual(LocalDateTime start, Pageable pageable);
-    Page<Memo> findByCreatedAtLessThan(LocalDateTime end, Pageable pageable);
+    Page<Memo> findByUserId(Long userId, Pageable pageable);
+    Page<Memo> findByUserIdAndTitleContaining(Long userId, String title, Pageable pageable);
+    Optional<Memo> findByIdAndUserId(Long id, Long userId);
 }
