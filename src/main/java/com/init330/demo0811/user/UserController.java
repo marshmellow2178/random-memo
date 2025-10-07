@@ -43,4 +43,12 @@ public class UserController {
         UserResponse res = UserResponse.from(userService.create(req));
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
+
+    @GetMapping("/user")
+    public ResponseEntity<?> getUser(
+            @AuthenticationPrincipal UserDetails userDetails
+    ){
+        UserResponse response = UserResponse.from(userService.findByUsername(userDetails.getUsername()));
+        return ResponseEntity.ok(response);
+    }
 }
