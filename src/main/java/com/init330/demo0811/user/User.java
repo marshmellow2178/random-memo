@@ -44,10 +44,11 @@ public class User implements UserDetails {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-    public static User create(String username, String password) {
+    public static User create(String username, String password, String email) {
         return User.builder()
                 .username(username)
                 .password(password)
+                .email(email)
                 .role("ROLE_USER")
                 .active(true)
                 .build();

@@ -5,6 +5,7 @@ import com.init330.demo0811.user.User;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,7 +23,7 @@ public class MemoController {
     private final MemoService memoService;
 
     @PostMapping
-    public ResponseEntity<?> create(
+    public ResponseEntity<MemoResponse> create(
             @Valid @RequestBody MemoRequest request,
             @AuthenticationPrincipal UserDetails userDetails
     ){
@@ -33,7 +34,7 @@ public class MemoController {
     }
 
     @GetMapping
-    public ResponseEntity<?> memoList(
+    public ResponseEntity<Page<MemoResponse>> memoList(
             Pageable pageable,
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) MemoStatus status,
@@ -45,7 +46,7 @@ public class MemoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getMemo(
+    public ResponseEntity<MemoResponse> getMemo(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetails userDetails
     ){
@@ -54,7 +55,7 @@ public class MemoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateMemo(
+    public ResponseEntity<MemoResponse> updateMemo(
             @PathVariable Long id,
             @Valid @RequestBody MemoRequest request,
             @AuthenticationPrincipal UserDetails userDetails
@@ -64,7 +65,7 @@ public class MemoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteMemo(
+    public ResponseEntity<Void> deleteMemo(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetails userDetails
     ){

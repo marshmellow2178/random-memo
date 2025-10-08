@@ -36,7 +36,7 @@ public class UserService {
         if(!req.getPassword1().equals(req.getPassword2())) {
             throw new BadCredentialsException("password not match");
         }
-        User user = User.create(req.getUsername(), encoder.encode(req.getPassword1()));
+        User user = User.create(req.getUsername(), encoder.encode(req.getPassword1()), req.getEmail());
         return userRepository.save(user);
     }
 }

@@ -15,14 +15,14 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login") //로그인
-    public ResponseEntity<?> login(
+    public ResponseEntity<LoginResponse> login(
             @RequestBody @Valid LoginRequest loginRequest
     ){
         return ResponseEntity.ok().body(userService.login(loginRequest));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(
+    public ResponseEntity<UserResponse> create(
             @Valid @RequestBody SignupRequest req
     ){
         UserResponse res = UserResponse.from(userService.create(req));
@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> getUser(
+    public ResponseEntity<UserResponse> getUser(
             @AuthenticationPrincipal UserDetails userDetails
     ){
         UserResponse response = UserResponse.from((User) userDetails);
