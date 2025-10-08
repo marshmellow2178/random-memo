@@ -1,9 +1,10 @@
 package com.init330.demo0811.memo;
 
+import com.init330.demo0811.error.CustomException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class MemoNotFound extends RuntimeException{
-
+public class MemoNotFound extends CustomException {
+    public MemoNotFound(Long id) {
+        super(HttpStatus.NOT_FOUND, "MEMO_NOT_FOUND", "메모 "+id+" 를 찾을 수 없습니다");
+    }
 }

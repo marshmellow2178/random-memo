@@ -6,49 +6,34 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 @RestController
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/user/login") //로그인
+    @PostMapping("/login") //로그인
     public ResponseEntity<?> login(
-            @RequestBody @Valid LoginRequest loginRequest,
-            BindingResult result
+            @RequestBody @Valid LoginRequest loginRequest
     ){
-        if(result.hasErrors()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("아이디와 비밀번호를 입력하세요");
-        }
-        String token = userService.login(loginRequest);
-        return ResponseEntity.ok().body("Bearer "+token);
+        return ResponseEntity.ok().body(userService.login(loginRequest));
     }
 
-    @GetMapping("/me") //로그인 유지
-    public ResponseEntity<?> me(
-            @AuthenticationPrincipal UserDetails userDetails
-    ){
-        return ResponseEntity.ok(Map.of("name", userDetails.getUsername()));
-    }
-
-    @PostMapping("/user/create")
+    @PostMapping("/create")
     public ResponseEntity<?> create(
-            @RequestBody SignupRequest req
+            @Valid @RequestBody SignupRequest req
     ){
         UserResponse res = UserResponse.from(userService.create(req));
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
 
-    @GetMapping("/user")
+    @GetMapping("/me")
     public ResponseEntity<?> getUser(
             @AuthenticationPrincipal UserDetails userDetails
     ){
-        UserResponse response = UserResponse.from(userService.findByUsername(userDetails.getUsername()));
+        UserResponse response = UserResponse.from((User) userDetails);
         return ResponseEntity.ok(response);
     }
 }

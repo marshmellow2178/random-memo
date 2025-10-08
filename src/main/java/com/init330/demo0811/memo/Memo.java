@@ -4,6 +4,7 @@ import com.init330.demo0811.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Fetch;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -27,7 +28,7 @@ public class Memo {
     @Enumerated(EnumType.STRING)
     private MemoStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @CreatedDate
@@ -51,22 +52,11 @@ public class Memo {
 
     public void update(
             String title,
-            String content
+            String content,
+            MemoStatus status
     ){
         this.title =title;
         this.content = content;
+        this.status = status;
     }
-
-    public void pin(){
-        this.status = MemoStatus.PINNED;
-    }
-
-    public void done(){
-        this.status = MemoStatus.DONE;
-    }
-
-    public void undo(){
-        this.status = MemoStatus.NORMAL;
-    }
-
 }
