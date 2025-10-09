@@ -10,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 @Getter
@@ -32,10 +33,10 @@ public class Memo {
     private User user;
 
     @CreatedDate
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private OffsetDateTime createdAt = OffsetDateTime.now();
 
     @LastModifiedDate
-    private LocalDateTime modifiedAt;
+    private OffsetDateTime modifiedAt;
 
     public static Memo create(
             String title,

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createMemo } from "../api/memo";
+import { useAxios } from "../context/AxiosContext";
 
 function MemoForm(){
 
@@ -7,9 +9,11 @@ function MemoForm(){
     const [content, setContent] = useState("");
 
     const navigate = useNavigate();
+    const axios = useAxios();
 
     function handleSubmit(event){
         event.preventDefault();
+        createMemo(axios, title, content)
         .then((res)=>{
             if(res.status == 201){
                 navigate("/memos");

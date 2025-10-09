@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -40,9 +40,9 @@ public class User implements UserDetails {
     private boolean active = true; //활동가능여부
 
     @CreatedDate
-    private LocalDateTime createdDate = LocalDateTime.now();
+    private OffsetDateTime createdDate = OffsetDateTime.now();
     @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
+    private OffsetDateTime lastModifiedDate;
 
     public static User create(String username, String password, String email) {
         return User.builder()

@@ -6,10 +6,10 @@ export const getMemos = (axiosInstance, {
     sort='createdAt,desc'})=>{
     return axiosInstance.get(`/memos`, {
         params:{
-            keyword,
-            status,
             page,
             size,
+            keyword,
+            status,
             sort
         }
     });

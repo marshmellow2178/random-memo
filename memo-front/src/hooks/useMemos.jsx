@@ -7,12 +7,8 @@ export default function useMemos(axiosInstance, filter){
     const [total, setTotal] = useState(0);
 
     useEffect(()=>{
-        getMemos(axiosInstance, 
-            filter.page, 
-            filter.size, 
-            filter.keyword, 
-            filter.status, 
-            filter.sort)
+        console.log("필터상태:", filter);
+        getMemos(axiosInstance, filter)
         .then((res)=>{
             setMemos(res.data.content);
             setLoading(false);

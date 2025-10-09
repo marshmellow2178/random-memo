@@ -3,7 +3,7 @@ package com.init330.demo0811.memo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Schema(description = "메모 응답용 dto")
@@ -17,9 +17,9 @@ public class MemoResponse {
     @Schema(description = "상태", example = "NORMAL")
     private MemoStatus status;
     @Schema(description = "작성일")
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
     @Schema(description = "수정일")
-    private LocalDateTime modifiedAt;
+    private OffsetDateTime modifiedAt;
 
     public static MemoResponse from(Memo memo){
         MemoResponse response = new MemoResponse();
