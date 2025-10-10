@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../api/user";
 import { useAuth } from "../hooks/useAuth";
 import { useAxios } from "../context/AxiosContext";
+import Input from "../components/ui/Input";
+import Form from "../components/ui/Form";
 
 function Login(){
     const [id, setId] = useState("");
@@ -26,22 +28,20 @@ function Login(){
     }
 
     return(
-        <div className="container">
-            <form
-            onSubmit={handleSubmit}>
-                <label>ID</label>
-                <input type="text" 
-                onChange={(e)=>setId(e.target.value)}
-                required />
+        <Form
+        onSubmit={handleSubmit}>
+            <Input type="text" 
+            onChange={(e)=>setId(e.target.value)}
+            placeholder="ID"
+            required />
 
-                <label>PW</label>
-                <input type="password"
-                onChange={(e)=>setPw(e.target.value)}
-                required />
+            <Input type="password"
+            onChange={(e)=>setPw(e.target.value)}
+            placeholder="PW"
+            required />
 
-                <button type="submit">LOGIN</button>
-            </form>
-        </div>
+            <Input type="submit" value="LOGIN" />
+        </Form>
     );
 }
 export default Login;

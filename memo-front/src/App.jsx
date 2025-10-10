@@ -1,10 +1,7 @@
 import './App.css'
 import Signup from './pages/Signup'
-import Header from './components/Header'
-import PrivateRoute from './components/PrivateRoute'
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import Login from './pages/Login'
-import Home from './pages/Home'
 import MemoList from './pages/MemoList'
 import MemoForm from './pages/MemoForm'
 import Memo from './pages/Memo'
@@ -12,6 +9,9 @@ import MemoEdit from './pages/MemoEdit'
 import { AuthProvider } from './context/AuthContext'
 import MyPage from './pages/MyPage'
 import { AxiosProvider } from './context/AxiosContext'
+import Layout from "./components/layout/Layout"
+import PrivateLayout from "./components/layout/PrivateLayout"
+import MemoCreate from './pages/MemoCreate'
 
 function App() {
 
@@ -20,18 +20,22 @@ function App() {
         <AuthProvider>
           <BrowserRouter >
             <AxiosProvider>
-            <Header />
             <Routes>
-              <Route path='/' element={<Home />}/>
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/login" element={<Login />} />
+              {/* 공개 페이지 */}
+              <Route element={<Layout />}>
+                <Route path='/' element={<MemoList />}/>
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
+              </Route>
               
-              <Route path="/memos" element={<PrivateRoute><MemoList /></PrivateRoute>} />
-              <Route path='/memos/:id' element={<PrivateRoute><Memo /></PrivateRoute>} />
-              <Route path="/memos/create" element={<PrivateRoute><MemoForm /></PrivateRoute>} />
-              <Route path="/memos/:id/update" element={<PrivateRoute><MemoEdit /></PrivateRoute>} />
-
-              <Route path='/mypage' element={<PrivateRoute><MyPage/></PrivateRoute>} />
+              <Route element={<PrivateLayout />}>
+                <Route path="/memos" element={<MemoList />} />
+                <Route path='/memos/:id' element={<Memo />} />
+                <Route path="/memos/create" element={<MemoCreate />} />
+                <Route path="/memos/:id/update" element={<MemoEdit />} />
+                <Route path='/mypage' element={<MyPage/>} />
+              </Route>
+              
             </Routes>
             </AxiosProvider>
           </BrowserRouter >

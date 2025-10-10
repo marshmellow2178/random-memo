@@ -23,19 +23,14 @@ export const deleteMemo=(axiosInstance, id)=>{
     return axiosInstance.delete(`/memos/${id}`);
 };
 
-export const createMemo=(axiosInstance, title, content)=>{
-    return axiosInstance.post(`/memos`, 
-        {
-            "title": title,
-            "content": content,
-        }
-    );
+export const createMemo=(axiosInstance, memoData)=>{
+    return axiosInstance.post(`/memos`, memoData);
 }
 
-export const updateMemo=(axiosInstance, id, title, content, status)=>{
+export const updateMemo=(axiosInstance, memoData, id)=>{
     return axiosInstance.patch(`/memos/${id}`, {
-        "title": title,
-        "content": content,
-        "status": status
+        "title": memoData.title,
+        "content": memoData.content,
+        "status": memoData.status
     });
 }

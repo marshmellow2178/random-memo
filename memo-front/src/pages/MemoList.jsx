@@ -1,10 +1,10 @@
 import { useReducer } from "react";
-import { Link } from "react-router-dom";
-import FilterBar from "../components/FilterBar";
-import MemoTable from "../components/MemoTable";
-import Pagination from "../components/Pagination";
+import FilterBar from "../components/layout/FilterBar";
+import Pagination from "../components/layout/Pagination";
 import useMemos from "../hooks/useMemos"
 import {useAxios} from "../context/AxiosContext"
+import MemoCard from "../components/memo/MemoCard";
+import Button from "../components/ui/Button";
 
 const initialFilter = {
     page: 0,
@@ -41,26 +41,15 @@ function MemoList(){
 
     const {loading, memos, totalPage, total} = useMemos(axios, filter)
     
-    function onDelete(id){
-        if(!confirm("DELETING MEMO")){
-            return;
-        }
-        deleteMemo(axios, id)
-        .then((res)=>{
-            if(res.status==204){
-                dispatch({type:"REFRESH"});
-            }
-        })
-    }
-
     return(
-        <div className="container">
+        <>
             {loading && (<p>로딩중...</p>) }
 
-            <Link to="/memos/create">NEW</Link>
-
-            <div>
-                {total} MEMOS AVAIL 
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold text-gray-600">LIST</h2>
+                <p className="text-md text-gray-600">
+                    {total} MEMOS AVAIL 
+                </p>
             </div>
 
             <FilterBar
@@ -72,16 +61,19 @@ function MemoList(){
                 setSort={v=>dispatch({type: "SET_SORT", payload: v})}
                 onSearch={v=>dispatch({type: "SET_KEYWORD", payload: v})}
             />
-            
-            <MemoTable memos={memos}
-            onDelete={onDelete} />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {memos.map(memo=>(
+                    <MemoCard key={memo.id} memo={memo} />
+                ))}
+            </div>
 
             <Pagination
             totalPage={totalPage}
             page={page}
             setPage={v=>dispatch({type: "SET_PAGE", payload: v})}
             />
-        </div>
+        </>
     );
 }
 export default MemoList;

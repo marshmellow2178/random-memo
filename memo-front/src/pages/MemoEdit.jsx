@@ -2,58 +2,29 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMemo, updateMemo } from "../api/memo";
 import { useAxios } from "../context/AxiosContext";
+import MemoForm from "./MemoForm";
 
 function MemoEdit(){
-
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [status, setStatus] = useState("NORMAL");
-
     const navigate = useNavigate();
     const axios = useAxios();
     const {id} = useParams();
+    const [memo, setMemo] = useState({});
 
     useEffect(()=>{
         getMemo(axios, id)
         .then((res)=>{
-            setTitle(res.data.title);
-            setContent(res.data.content);
-            setStatus(res.data.status);
+           setMemo(res.data);
         })
     }, [])
 
-    function handleSubmit(event){
-        event.preventDefault();
-        updateMemo(axios, id, title, content, status)
-        .then((res)=>{
-            if(res.status == 200){
-                navigate(`/memos/${id}`);
-            }
-        })
-        .catch(console.error);
-    }
+    const handleSubmit = async (data) => {
+        await updateMemo(axios, data, id);
+        navigate(`/memos/${id}`);
+    };
 
-    return(
-        <div className="container">
-            <form onSubmit={handleSubmit}>
-                <input type="text"
-                value={title}
-                required
-                onChange={(e)=>setTitle(e.target.value)} />
-                <select
-                value={status}
-                onChange={(e)=>setStatus(e.target.value)}>
-                    <option value={"NORMAL"}>일반</option>
-                    <option value={"PINNED"}>중요</option>
-                    <option value={"DONE"}>완료</option>
-                </select>
-                <textarea
-                value={content}
-                required
-                onChange={(e)=>setContent(e.target.value)} />
-                <button type="submit">UPDATE</button>
-            </form>
-        </div>
-    );
+    return <MemoForm 
+    initData={memo}
+    onSubmit={handleSubmit} 
+    buttonText="UPDATE" />;
 }
 export default MemoEdit;

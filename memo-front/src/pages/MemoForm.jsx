@@ -1,39 +1,51 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { createMemo } from "../api/memo";
-import { useAxios } from "../context/AxiosContext";
+import { useEffect, useState } from "react";
+import Input from "../components/ui/Input"; 
+import TextArea from "../components/ui/TextArea";
+import Select from "../components/ui/Select";
 
-function MemoForm(){
+function MemoForm({initData = {}, onSubmit, buttonText="SUBMIT"}){
 
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
+    const [title, setTitle] = useState(initData.title || "");
+    const [content, setContent] = useState(initData.content || "");
+    const [status, setStatus] = useState(initData.status || "NORMAL");
 
-    const navigate = useNavigate();
-    const axios = useAxios();
+    useEffect(()=>{
+        setTitle(initData.title || "");
+        setContent(initData.content || "");
+        setStatus(initData.status || "NORMAL");
+    },[initData.id]);
 
     function handleSubmit(event){
         event.preventDefault();
-        createMemo(axios, title, content)
-        .then((res)=>{
-            if(res.status == 201){
-                navigate("/memos");
-            }
-        })
-        .catch(console.error);
+        onSubmit({title,content,status});
     }
 
     return(
-        <div className="container">
-            <form onSubmit={handleSubmit}>
-                <input type="text"
+        <form onSubmit={handleSubmit} 
+        className="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-sm space-y-4">
+            <div className="flex">
+                <Select
+                value={status}
+                onChange={(e)=>setStatus(e.target.value)}>
+                    <option value={"NORMAL"}>NORMAL</option>
+                    <option value={"PINNED"}>PIN</option>
+                    <option value={"DONE"}>DONE</option>
+                </Select>
+                <Input
+                value={title}
                 required
-                onChange={(e)=>setTitle(e.target.value)} />
-                <textarea
-                required
-                onChange={(e)=>setContent(e.target.value)} />
-                <button type="submit">SUBMIT</button>
-            </form>
-        </div>
+                onChange={(e)=>setTitle(e.target.value)} 
+                placeholder="TITLE"/>
+            </div>
+            
+            <TextArea
+            value={content}
+            required
+            rows={10}
+            placeholder="CONTENT"
+            onChange={(e)=>setContent(e.target.value)} />
+            <Input type="submit" value={buttonText} />
+        </form>
     );
 }
 export default MemoForm;

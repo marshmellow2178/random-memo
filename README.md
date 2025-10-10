@@ -2,15 +2,23 @@
 
 ## 개요
 간단한 메모 관리 앱
-백엔드는 Spring Boot 3 + JPA
-프론트는 React + Axios 기반입니다
+- 백엔드는 Spring Boot 3 + JPA
+- 프론트는 React + Axios 기반입니다
 
 ## 주요 기능
 - JWT 로그인/회원가입
+  - ![로그인폼](./images/login.png)
+  - ![회원가입폼](./images/SignUp.png)
+  - ![마이페이지](./images/myPage.png)
 - 메모 CRUD(중요, 완료 상태 등)
-- Docker Compose로 백엔드와 DB연동
+  - ![목록보기](./images/memoList.png)
+  - ![상세보기](./images/memoCard.png)
+  - ![메모폼](./images/memoForm.png)
+  - ![수정폼](./images/memoEdit.png)
+- Docker Compose로 백엔드와 DB, 프론트엔드 연동
 - Swagger API 문서 자동화
-- 시간대 동기화 문제 해결
+  - ![문서화 예시](./images/swagger.png)
+- 시간대 동기화 문제 해결(OffsetDateTime) 
 
 ## 기술 스택
 - Spring Boot 3
@@ -37,8 +45,7 @@
 
 ## 🐳 Docker Compose
 
-이 프로젝트는 Docker Compose를 이용해 백엔드(Spring Boot)와 데이터베이스(MySQL)를 컨테이너 환경에서 실행합니다.
-> 현재는 **백엔드 전용 구성**입니다. 추후 프론트 컨테이너 추가 예정입니다 
+이 프로젝트는 Docker Compose를 이용해 백엔드(Spring Boot)와 데이터베이스(MySQL), 프론트엔드(React)를 컨테이너 환경에서 실행합니다.
 
 ### 📦 실행 방법
 
@@ -51,9 +58,9 @@ docker compose down
 ```
 
 ### 서비스 구성
-서비스	포트	설명
-app	8080	Spring Boot 백엔드 (Memo API)
-db	3308 → 3306	MySQL 9.4 데이터베이스
+- app	8080	Spring Boot 백엔드 (Memo API)
+- db	3308 → 3306	MySQL 9.4 데이터베이스
+- frontend 5173 프론트엔드 
 
 ### 환경 변수 (.env)
 .env 파일을 생성해 다음과 같이 환경변수를 지정할 수 있습니다.
@@ -69,6 +76,6 @@ MYSQL_DATABASE=memos
 ./gradlew bootJar 빌드 없이도 Dockerfile에서 자동 빌드하여 실행됩니다.
 
 ## 이후 계획
-- UI 개선(컴포넌트화, 스타일링)
+- UI 개선(컴포넌트화, 스타일링): 완료
 - JWT 재발급
 - README 추가

@@ -14,7 +14,15 @@ services:
     container_name: memo
     ports:
       - "8080:8080"
+    env_file:
+      - .env
     depends_on:
       - db
+  frontend:
+    build: ./memo-front
+    ports:
+      - "5173:80"
+    depends_on:
+      - app
 volumes:
   db_data:
