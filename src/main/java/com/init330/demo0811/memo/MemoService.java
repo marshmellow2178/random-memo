@@ -18,6 +18,7 @@ public class MemoService {
         Memo memo = Memo.create(
                 request.title(),
                 request.content(),
+                request.status(),
                 user
         );
         return memoRepository.save(memo);
