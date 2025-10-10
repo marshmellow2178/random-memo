@@ -38,3 +38,6 @@ out/
 
 ## docker
 db_data/
+
+## env
+.env
