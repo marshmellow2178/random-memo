@@ -19,6 +19,11 @@
 - Swagger(Springdoc)
 - Docker Compose
 
+## Postman API Test
+- [random-memo.postman_collection.json](./docs/random-memo.postman_collection.json)
+- [random-memo-env.json](./docs/random-memo-env.json)
+- Import to Postman → Run “users/login” → Test all memo APIs
+
 ## 이후 계획
 - UI 개선(컴포넌트화, 스타일링)
 - JWT 재발급

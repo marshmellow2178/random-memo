@@ -1,0 +1,21 @@
+{
+	"id": "0871c1fd-15d9-4e72-9105-4175c6f51174",
+	"name": "New Environment",
+	"values": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "access",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-10-10T07:48:37.833Z",
+	"_postman_exported_using": "Postman/11.66.5"
+}
