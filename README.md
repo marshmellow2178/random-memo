@@ -6,7 +6,7 @@
 프론트는 React + Axios 기반입니다
 
 ## 주요 기능
-- JWT로그인/회원가입
+- JWT 로그인/회원가입
 - 메모 CRUD(중요, 완료 상태 등)
 - Docker Compose로 백엔드와 DB연동
 - Swagger API 문서 자동화
