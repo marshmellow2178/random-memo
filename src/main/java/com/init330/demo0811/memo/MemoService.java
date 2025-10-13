@@ -44,7 +44,8 @@ public class MemoService {
     }
 
     public Memo findMemoById(Long id, Long userId){
-        return memoRepository.findByIdAndUserId(id, userId).orElseThrow(()->new MemoNotFound(id));
+        return memoRepository.findByIdAndUserId(id, userId)
+                .orElseThrow(()->new MemoNotFound(id));
     }
 
     public Page<Memo> search(

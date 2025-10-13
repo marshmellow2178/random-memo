@@ -12,6 +12,7 @@ public interface MemoRepository extends JpaRepository<Memo, Long> {
     @Query("""
             SELECT m 
             from Memo m 
+            join fetch m.user
             WHERE m.user.id=:userId
                 and (:title is null or m.title like %:title%)
                 and (:status is null or m.status =:status)
@@ -23,5 +24,8 @@ public interface MemoRepository extends JpaRepository<Memo, Long> {
             Pageable pageable
     );
 
+    @Query("""
+    select m from Memo m join fetch m.user where m.id=:id
+""")
     Optional<Memo> findByIdAndUserId(Long id, Long userId);
 }

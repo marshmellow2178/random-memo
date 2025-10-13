@@ -51,7 +51,8 @@ public class MemoController {
             @AuthenticationPrincipal UserDetails userDetails
     ){
         User user = (User)userDetails;
-        return ResponseEntity.ok(MemoResponse.from(memoService.findMemoById(id, user.getId())));
+        return ResponseEntity.ok(MemoResponse.from(
+                memoService.findMemoById(id, user.getId())));
     }
 
     @PatchMapping("/{id}")

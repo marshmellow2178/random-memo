@@ -10,6 +10,7 @@ import java.time.OffsetDateTime;
 public class MemoResponse {
     @Schema(description = "id", example = "1")
     private Long id;
+    private String username;
     @Schema(description = "제목", example = "title")
     private String title;
     @Schema(description = "내용", example = "content")
@@ -29,6 +30,7 @@ public class MemoResponse {
         response.createdAt = memo.getCreatedAt();
         response.modifiedAt = memo.getModifiedAt();
         response.status = memo.getStatus();
+        response.username = memo.getUser().getUsername();
         return response;
     }
 }
