@@ -10,8 +10,8 @@ import java.util.Optional;
 
 public interface MemoRepository extends JpaRepository<Memo, Long> {
     @Query("""
-            SELECT m 
-            from Memo m 
+            SELECT m
+            from Memo m
             join fetch m.user
             WHERE m.user.id=:userId
                 and (:title is null or m.title like %:title%)

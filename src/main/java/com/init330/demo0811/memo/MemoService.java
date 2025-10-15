@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -54,7 +55,12 @@ public class MemoService {
             Long userId,
             MemoStatus status
     ){
-        return memoRepository.searchMemos(userId, keyword.trim(), status, pageable);
+        if(StringUtils.hasText(keyword)){
+            keyword = keyword.trim();
+        }else{
+            keyword=null; //빈 문자열 대응
+        }
+        return memoRepository.searchMemos(userId, keyword, status, pageable);
 
     }
 }
