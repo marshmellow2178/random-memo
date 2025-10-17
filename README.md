@@ -1,4 +1,5 @@
 # Memo Project
+![Last Commit](https://img.shields.io/github/last-commit/marshmellow2178/random-memo.svg)
 
 ## 개요
 간단한 메모 관리 앱
