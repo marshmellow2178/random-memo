@@ -62,7 +62,7 @@ function MemoList(){
                 onSearch={v=>dispatch({type: "SET_KEYWORD", payload: v})}
             />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 grid-cols-2 gap-4">
                 {memos.map(memo=>(
                     <MemoCard key={memo.id} memo={memo} />
                 ))}

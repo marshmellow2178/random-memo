@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .dispatcherTypeMatchers(DispatcherType.ERROR, DispatcherType.ASYNC).permitAll()
                         .requestMatchers("/api/user/create",
                                 "/api/user/login",
+                                "/api/weather/**",
                                 "/error").permitAll()
                         .requestMatchers("/v3/api-docs/**",
                                 "/swagger-ui/**",
